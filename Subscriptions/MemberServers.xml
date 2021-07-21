@@ -1,0 +1,61 @@
+<Subscription xmlns="http://schemas.microsoft.com/2006/03/windows/events/subscription">
+    <SubscriptionId>MemberServers</SubscriptionId>
+    <SubscriptionType>SourceInitiated</SubscriptionType>
+    <Description>Member Server events.</Description>
+    <Enabled>true</Enabled>
+    <Uri>http://schemas.microsoft.com/wbem/wsman/1/windows/EventLog</Uri>
+    <ConfigurationMode>Custom</ConfigurationMode>
+    <Delivery Mode="Push">
+        <Batching>
+            <MaxItems>5</MaxItems>
+            <MaxLatencyTime>300000</MaxLatencyTime>
+        </Batching>
+        <PushSettings>
+            <Heartbeat Interval="1800000"/>
+        </PushSettings>
+    </Delivery>
+    <Query>
+        <![CDATA[
+            <QueryList>
+                <Query Id="0" Path="Application">
+                    <!--Application Error and Hang (1000, 1002)-->
+                    <Select Path="Application">*[System[Provider[@Name='Application Error' or @Name='Application Hang'] and (Level=2) and (EventID=1000 or EventID=1002)]]</Select>
+                
+                    <!--WER Application Crashes Reports (1001)-->
+                    <Select Path="Application">*[System[Provider[@Name='Windows Error Reporting'] and Level=4 and EventID=1001]]</Select>
+                </Query>
+
+                <Query Id="1" Path="Security">
+                    <!--Certificate Revoked (4870)-->
+                    <Select Path="Security">*[System[(Level=4 or Level=0) and (EventID=4870)]]</Select>
+                </Query>
+                    <Query Id="2" Path="Windows PowerShell">
+                    <!--Legacy PowerShell pipeline execution details (800)-->
+                    <Select Path="Windows PowerShell">*[System[(EventID=800)]]</Select>
+                </Query>
+
+                <Query Id="3" Path="Microsoft-Windows-Powershell/Operational">
+                    <!--PowerShell script block logging must be enabled in Group Policy-->
+                    <!--Exception Raised (4103)-->
+                    <Select Path="Microsoft-Windows-Powershell/Operational">*[System[(EventID=4103)]]</Select>
+
+                    <!--Script Block Contents (4104)-->
+                    <Select Path="Microsoft-Windows-Powershell/Operational">*[System[(EventID=4104)]]</Select>
+
+                    <!--Script Block Start, End (4105)-->
+                    <Select Path="Microsoft-Windows-Powershell/Operational">*[System[(EventID=4105)]]</Select>
+
+                    <!--Script Block End (4106)-->
+                    <Select Path="Microsoft-Windows-Powershell/Operational">*[System[(EventID=4106)]]</Select>
+                </Query>
+            </QueryList>
+        ]]>
+    </Query>
+    <ReadExistingEvents>true</ReadExistingEvents>
+    <TransportName>http</TransportName>
+    <ContentFormat>RenderedText</ContentFormat>
+    <Locale Language="en-US"/>
+    <LogFile>ForwardedEvents</LogFile>
+    <AllowedSourceNonDomainComputers/>
+    <AllowedSourceDomainComputers>O:NSG:NSD:(A;;GA;;;DC)(A;;GA;;;NS)</AllowedSourceDomainComputers>
+</Subscription>
