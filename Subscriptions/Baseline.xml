@@ -1,0 +1,143 @@
+<Subscription xmlns="http://schemas.microsoft.com/2006/03/windows/events/subscription">
+    <SubscriptionId>Baseline</SubscriptionId>
+    <SubscriptionType>SourceInitiated</SubscriptionType>
+    <Description>Default events for all host types.</Description>
+    <Enabled>true</Enabled>
+    <Uri>http://schemas.microsoft.com/wbem/wsman/1/windows/EventLog</Uri>
+    <ConfigurationMode>Custom</ConfigurationMode>
+    <Delivery Mode="Push">
+        <Batching>
+            <MaxItems>5</MaxItems>
+            <MaxLatencyTime>300000</MaxLatencyTime>
+        </Batching>
+        <PushSettings>
+            <Heartbeat Interval="1800000"/>
+        </PushSettings>
+    </Delivery>
+    <Query>
+        <![CDATA[
+              <QueryList>
+                <Query Id="0" Path="System">
+                    <!--Domain Controller Promoted (29223)-->
+                    <Select Path="System">*[System[(EventID=29223)]]</Select>
+
+                    <!--Windows System Logs Service Installed (7045)-->
+                    <Select Path ="System">*[System[(EventID=7045)]]</Select>
+                </Query>
+
+                <Query Id="1" Path="Security">
+                    <!--Account Events-->
+                    <!--An account was successfully logged on (4624)-->
+                    <Select Path="Security">*[System[(EventID=4624)]]</Select>
+
+                    <!--An account was successfully logged off (4625)-->
+                    <Select Path="Security">*[System[(EventID=4625)]]</Select>
+
+                    <!--The domain controller attempted to validate the credentials for an account (4776)-->
+                    <Select Path="Security">*[System[(EventID=4776)]]</Select>
+
+                    <!--A user account was created (4720)-->
+                    <Select Path="Security">*[System[(EventID=4720)]]</Select>
+
+                    <!--A user account was enabled (4722)-->
+                    <Select Path="Security">*[System[(EventID=4722)]]</Select>
+
+                    <!--A user account was deleted (4726)-->
+                    <Select Path="Security">*[System[(EventID=4726)]]</Select>        
+
+                    <!--User account locked out (4740)-->
+                    <Select Path="Security">*[System[(EventID=4740)]]</Select>
+
+                    <!--Attempt was made to reset an account's password (4724)-->
+                    <Select Path="Security">*[System[(EventID=4724)]]</Select>
+
+                    <!--Attempt was made to change an account's password (4723)-->
+                    <Select Path="Security">*[System[(EventID=4723)]]</Select>
+
+                    <!--A user account was changed (4738)-->
+                    <Select Path="Security">*[System[(EventID=4738)]]</Select>
+
+                    <!--Network Events-->
+                    <!--A network share object was accessed (5140)-->
+                    <Select Path="Security">*[System[(EventID=5140)]]</Select>
+
+                    <!--Kerberos Ticket Requested (4768)-->
+                    <Select Path="Security">*[System[(EventID=4768)]]</Select>
+
+                    <!--Kerberos Pre-authentication failed (4771)-->
+                    <Select Path="Security">*[System[(EventID=4771)]]</Select>
+                    
+                    <!--Group Events-->
+                    <!--A member was added to a security-enabled local group (4732)-->
+                    <Select Path="Security">*[System[(EventID=4732)]]</Select>
+
+                    <!--A member was added to a security-enabled global group (4728)-->
+                    <Select Path="Security">*[System[(EventID=4728)]]</Select>
+                    
+                    <!--A member was removed from a security-enabled global group (4729)-->
+                    <Select Path="Security">*[System[(EventID=4729)]]</Select>
+
+                    <!--A member was added to a security-enabled universal group (4756)-->
+                    <Select Path="Security">*[System[(EventID=4756)]]</Select>
+
+                    <!--A security-enabled local group was deleted (4734)-->
+                    <Select Path="Security">*[System[(EventID=4734)]]</Select>
+
+                    <!--A security-enabled global group was deleted (4730)-->
+                    <Select Path="Security">*[System[(EventID=4730)]]</Select>
+
+                    <!--A security-enabled universal group was deleted (4758)-->
+                    <Select Path="Security">*[System[(EventID=4758)]]</Select>
+
+                    <!--System Events-->
+                    <!--A new process has been created (4688)-->
+                    <Select Path="Security">*[System[(EventID=4688)]]</Select>
+
+                    <!--A registry value was modified (4657)-->
+                    <Select Path="Security">*[System[(EventID=4657)]]</Select>
+
+                    <!--A service was installed on the system (4697)-->
+                    <Select Path="Security">*[System[(EventID=4697)]]</Select>
+
+                    <!--A Scheduled Task was created (4698)-->
+                    <Select Path="Security">*[System[(EventID=4698)]]</Select>
+
+                    <!--The audit log was cleared (1102)-->
+                    <Select Path="Security">*[System[(EventID=1102)]]</Select>
+
+                    <!--A Scheduled Task was deleted (4699)-->
+                    <Select Path="Security">*[System[(EventID=4699)]]</Select>
+
+                    <!--The Windows Firewall Service has been stopped (5025)-->
+                    <Select Path="Security">*[System[(EventID=5025)]]</Select>
+                </Query>
+            
+                <Query Id="2" Path="Windows PowerShell">
+                    <!--Legacy PowerShell pipeline execution details (800)-->
+                    <Select Path="Windows PowerShell">*[System[(EventID=800)]]</Select>
+                </Query>
+
+                <Query Id="3" Path="Microsoft-Windows-Powershell/Operational">
+                    <!--Exception Raised (4103)-->
+                    <Select Path="Microsoft-Windows-Powershell/Operational">*[System[(EventID=4103)]]</Select>
+
+                    <!--Script Block Contents (4104)-->
+                    <Select Path="Microsoft-Windows-Powershell/Operational">*[System[(EventID=4104)]]</Select>
+
+                    <!--Script Block Start, End (4105)-->
+                    <Select Path="Microsoft-Windows-Powershell/Operational">*[System[(EventID=4105)]]</Select>
+
+                    <!--Script Block End (4106)-->
+                    <Select Path="Microsoft-Windows-Powershell/Operational">*[System[(EventID=4106)]]</Select>
+                </Query>
+            </QueryList>
+        ]]>
+    </Query>
+    <ReadExistingEvents>true</ReadExistingEvents>
+    <TransportName>http</TransportName>
+    <ContentFormat>RenderedText</ContentFormat>
+    <Locale Language="en-US"/>
+    <LogFile>ForwardedEvents</LogFile>
+    <AllowedSourceNonDomainComputers/>
+    <AllowedSourceDomainComputers>O:NSG:NSD:(A;;GA;;;DC)(A;;GA;;;NS)(A;;GA;;;DD)</AllowedSourceDomainComputers>
+</Subscription>
